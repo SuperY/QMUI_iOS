@@ -34,13 +34,15 @@
         return;
     }
     
-    // scrollEnabled 为 NO 时可能产生不合法的 rect 值 https://github.com/QMUI/QMUI_iOS/issues/205
-    if (isinf(CGRectGetMinX(caretRect)) || isinf(CGRectGetMinY(caretRect))) {
-        return;
-    }
+
 
     CGRect caretRect = [self caretRectForPosition:self.selectedTextRange.end];
     CGFloat contentOffsetY = self.contentOffset.y;
+    
+        // scrollEnabled 为 NO 时可能产生不合法的 rect 值 https://github.com/QMUI/QMUI_iOS/issues/205
+    if (isinf(CGRectGetMinX(caretRect)) || isinf(CGRectGetMinY(caretRect))) {
+        return;
+    }
     
     if (CGRectGetMinY(caretRect) == self.contentOffset.y + self.textContainerInset.top) {
         // 命中这个条件说明已经不用调整了，直接 return，避免继续走下面的判断，会重复调整，导致光标跳动
